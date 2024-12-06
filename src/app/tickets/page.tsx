@@ -7,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { initialTickets } from "@/data";
 import { ticketPath } from "@/paths";
+import { Heading } from "@/components/heading";
 
 const TICKET_ICONS = {
   OPEN: <LucideFileText />,
@@ -20,15 +20,10 @@ const TICKET_ICONS = {
 const TicketsPage = () => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Tickets</h2>
-        <p className="text-sm text-muted-foreground">
-          All your tickets at one place
-        </p>
-      </div>
-
-      <Separator />
-
+      <Heading
+        title="Tickets"
+        description="View and manage your tickets here."
+      />
       <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
         {initialTickets.map((ticket) => (
           <Card key={ticket.id} className="w-full max-w-[420px]">

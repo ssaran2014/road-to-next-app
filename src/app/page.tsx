@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { ticketsPath } from '@/paths';
+import { Heading } from '@/components/heading';
 
 const HomePage = () => {
   return (
     <div>
-      <h1 className="text-lg">
-        Home Page
-      </h1>
-      This is the home page of the app.
-      <br />
+      <Heading 
+        title="Home" 
+        description="Your home page to start."
+      />
       <Link href={ticketsPath()} className="underline text-blue-500">
         Go to Tickets
       </Link>
