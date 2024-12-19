@@ -1,6 +1,6 @@
 import { Ticket } from "@prisma/client";
 import clsx from "clsx";
-import { LucideArrowUpRightFromSquare, LucideTrash, LucidePencil } from "lucide-react";
+import { LucideArrowUpRightFromSquare, LucideTrash, LucidePencil, Ticket, LucideMoreVertical } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { ticketEditPath, ticketPath } from "@/paths";
 import { deleteTicket } from "../actions/delete-ticket";
 import { TICKET_ICONS } from "../constants";
 import { toCurrencyFromCent } from "@/utils/currency";
+import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
   ticket: Ticket;
@@ -38,6 +39,12 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
       </Link>
     </Button>
   );
+
+  const moreMenu = <TicketMoreMenu ticket={ticket} trigger={
+    <Button variant="outline" size="icon">
+      <LucideMoreVertical className="h-4 w-4" />
+    </Button>
+  }/>
 
   return (
     <div
@@ -73,6 +80,7 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
           <>
           {editButton}
           {deleteButton}
+          {moreMenu}
           </>
         ) : (
         <>
