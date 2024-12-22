@@ -3,8 +3,8 @@ import { ZodError } from "zod";
 export type ActionState = {
   status?: "SUCCESS" | "ERROR";
   message: string;
-  fieldErrors: Record<string, string[] | undefined>;
   payload?: FormData;
+  fieldErrors: Record<string, string[] | undefined>;
   timestamp: number;
 };
 
@@ -19,31 +19,27 @@ export const fromErrorToActionState = (
   formData?: FormData
 ): ActionState => {
   if (error instanceof ZodError) {
-    // if validation error with Zod, return first error message
     return {
       status: "ERROR",
       message: "",
-      fieldErrors: error.flatten().fieldErrors,
       payload: formData,
+      fieldErrors: error.flatten().fieldErrors,
       timestamp: Date.now(),
     };
   } else if (error instanceof Error) {
-    // if another error instance, return error message
-    // e.g. database error
     return {
+      status: "ERROR",
       message: error.message,
-      fieldErrors: {},
       payload: formData,
+      fieldErrors: {},
       timestamp: Date.now(),
     };
   } else {
-    // if not an error instance but something else crashed
-    // return generic error message
     return {
       status: "ERROR",
       message: "An unknown error occurred",
-      fieldErrors: {},
       payload: formData,
+      fieldErrors: {},
       timestamp: Date.now(),
     };
   }
