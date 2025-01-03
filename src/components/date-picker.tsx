@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react";
 import { format } from "date-fns"
 import { LucideCalendar } from "lucide-react"
+import { useState } from "react";
 
-import { cn } from "@/lib/utils"
+import { Input } from "./ui/input";
+
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -12,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Input } from "./ui/input";
+import { cn } from "@/lib/utils"
 
 type DatePickerProps = {
   id: string

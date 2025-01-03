@@ -1,8 +1,9 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import { Button } from "../ui/button";
 import { LucideLoaderCircle } from "lucide-react";
+import { useFormStatus } from "react-dom";
+
+import { Button } from "../ui/button";
 
 type SubmitButtonProps = {
     label: string;
