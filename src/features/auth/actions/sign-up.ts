@@ -41,7 +41,7 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     const { username, email, password } = SignUpSchema.parse(
       Object.fromEntries(formData)
     );
-    //TODO store in database
+
     const passwordHash = await hash(password);
 
     const user = await prisma.user.create({
