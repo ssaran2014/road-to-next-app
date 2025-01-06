@@ -1,23 +1,25 @@
 "use server";
 
+import { hash } from "@node-rs/argon2";
+import { Prisma } from "@prisma/client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 import {
   ActionState,
   fromErrorToActionState,
+  toActionState,
 } from "@/components/form/utils/to-action-state";
-import { prisma } from "@/lib/prisma";
-import { z } from "zod";
-import { hash } from "@node-rs/argon2";
 import { lucia } from "@/lib/lucia";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 
-const SignUpSchema = z
+const signUpSchema = z
   .object({
     username: z
       .string()
       .min(1)
-      .max(50)
+      .max(191)
       .refine(
         (value) => !value.includes(" "),
         "Username cannot contain spaces"
@@ -38,7 +40,7 @@ const SignUpSchema = z
 
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
-    const { username, email, password } = SignUpSchema.parse(
+    const { username, email, password } = signUpSchema.parse(
       Object.fromEntries(formData)
     );
 
@@ -51,15 +53,29 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         passwordHash,
       },
     });
+
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
+
     (await cookies()).set(
       sessionCookie.name,
       sessionCookie.value,
       sessionCookie.attributes
     );
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return toActionState(
+        "ERROR",
+        "Either email or username is already in use",
+        formData
+      );
+    }
+
     return fromErrorToActionState(error, formData);
   }
+
   redirect(ticketsPath());
 };
