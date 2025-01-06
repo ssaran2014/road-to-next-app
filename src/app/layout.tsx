@@ -5,7 +5,7 @@ import "./globals.css";
 
 import { Header } from "@/components/header";
 import { RedirectToast } from "@/components/redirect-toast";
-import { ThemeProvider } from "@/components/themes/theme-provider";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
