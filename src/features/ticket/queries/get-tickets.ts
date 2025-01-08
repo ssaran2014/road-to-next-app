@@ -5,7 +5,15 @@ export const getTickets = async () => {
 
   return prisma.ticket.findMany({
     orderBy: {
-      id: "asc",
+      id: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+          email: true,
+        },
+      },
     },
   });
 };

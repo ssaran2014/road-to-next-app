@@ -1,6 +1,6 @@
 "use client";
 
-import { Ticket } from "@prisma/client";
+import { Prisma, Ticket } from "@prisma/client";
 import clsx from "clsx";
 import { LucideArrowUpRightFromSquare, LucideMoreVertical,LucidePencil } from "lucide-react";
 import Link from "next/link";
@@ -15,7 +15,13 @@ import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: Prisma.TicketGetPayload<{
+    include: { user: {
+      select: {
+        username: true;
+      };
+    }};
+  }>;
   isDetail?: boolean;
 };
 
@@ -66,7 +72,7 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
           </span>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+          <p className="text-sm text-muted-foreground">{ticket.deadline} by {ticket.user.username}</p>
           <p className="text-sm text-muted-foreground">{toCurrencyFromCent(ticket.bounty)}</p>
         </CardFooter>
       </Card>
