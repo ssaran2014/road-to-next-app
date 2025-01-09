@@ -1,18 +1,21 @@
-import Link from 'next/link';
-
 import { Heading } from '@/components/heading';
-import { ticketsPath } from '@/paths';
+import { Suspense } from 'react';
+import { TicketList } from '@/features/ticket/components/ticket-list';
+import { Spinner } from '@/components/spinner';
+import { getAuth } from '@/features/auth/queries/get-auth';
 
-const HomePage = () => {
+const HomePage = async () => {
+  const { user } = await getAuth();
+
   return (
-    <div>
+    <div className='flex-1 flex flex-col gap-y-8'>
       <Heading 
-        title="Home" 
-        description="Your home page to start."
+        title="All Tickets" 
+        description="Tickets by everyone in one place."
       />
-      <Link href={ticketsPath()} className="underline text-blue-500">
-        Go to Tickets
-      </Link>
+      <Suspense fallback={<Spinner />}>
+        <TicketList userId={user?.id}/>
+      </Suspense>
     </div>
   );
 };
