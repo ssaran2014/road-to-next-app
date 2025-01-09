@@ -1,17 +1,14 @@
 import { prisma } from "@/lib/prisma";
 
 export const getTickets = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  return prisma.ticket.findMany({
+  return await prisma.ticket.findMany({
     orderBy: {
-      id: "desc",
+      createdAt: "desc",
     },
     include: {
       user: {
         select: {
           username: true,
-          email: true,
         },
       },
     },
