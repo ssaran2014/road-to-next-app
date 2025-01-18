@@ -5,9 +5,9 @@ import Link from "next/link";
 import { signOut } from "@/features/auth/actions/sign-out";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { homePath, signInPath, signUpPath } from "@/paths";
-import { SubmitButton } from "./form/submit-button";
-import { ThemeSwitcher } from "./theme/theme-switcher";
-import { buttonVariants } from "./ui/button";
+import { SubmitButton } from "../../components/form/submit-button";
+import { ThemeSwitcher } from "../../components/theme/theme-switcher";
+import { buttonVariants } from "../../components/ui/button";
 import { AccountDropdown } from "./account-dropdown";
 
 const Header = () => {
